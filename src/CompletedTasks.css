@@ -1,0 +1,21 @@
+.completed-tasks-container {
+    margin-left: 2rem;
+    flex: 1;
+}
+
+.completed-tasks-heading {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.completed-tasks {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.completed-tasks-empty {
+    color: #6c757d;
+    font-style: italic;
+    padding: 0.5rem;
+}

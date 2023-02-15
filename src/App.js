@@ -1,25 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import FormInput from "./FormInput";
+import TaskList from "./TaskList";
+import CompletedTasks from "./CompletedTasks";
+import "./App.css";
 
-function App() {
+const App = () => {
+  const [tasks, setTasks] = useState([]);
+  const [completedTasks, setCompletedTasks] = useState([]);
+
+  const handleAddTask = (task) => {
+    setTasks((prevTasks) => [...prevTasks, { id: Date.now(), value: task }]);
+  };
+
+  const handleEditTask = (id, editedTask) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === id ? { ...task, value: editedTask } : task
+      )
+    );
+  };
+
+  const handleCompleteTask = (id) => {
+    const taskToComplete = tasks.find((task) => task.id === id);
+    setCompletedTasks((prevCompletedTasks) => [
+      ...prevCompletedTasks,
+      taskToComplete,
+    ]);
+    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
+  };
+
+  const handleDeleteTask = (id) => {
+    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <FormInput onAddTask={handleAddTask} />
+      <div className="tasks-container">
+        <TaskList
+          tasks={tasks}
+          onEdit={handleEditTask}
+          onComplete={handleCompleteTask}
+          onDelete={handleDeleteTask}
+        />
+        <CompletedTasks tasks={completedTasks} />
+      </div>
     </div>
   );
-}
+};
 
 export default App;
